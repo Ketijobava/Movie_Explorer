@@ -28,8 +28,9 @@
   }
 
   &__icon {
-    color: $primary;
-    font-size: 1.4rem;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
   }
 
   &__links {

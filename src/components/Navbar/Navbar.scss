@@ -38,8 +38,9 @@
   }
 
   &__logo-icon {
-    color: $primary;
-    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
   }
 
   &__links {
@@ -51,7 +52,8 @@
       display: flex;
     }
 
-    a {
+    a,
+    .active {
       font-size: 0.9rem;
       font-weight: 500;
       color: var(--text-muted);

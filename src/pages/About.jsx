@@ -35,7 +35,7 @@ const About = () => {
         </div>
 
         <div className="about-page__tech">
-          <h2>Tech Stack</h2>
+          <h2>{t(language, 'techStack')}</h2>
           <ul>
             <li>React (Hooks: useState, useEffect, useContext)</li>
             <li>React Router DOM</li>

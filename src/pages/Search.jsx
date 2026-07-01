@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import tmdbApi from '../api/axios';
 import { useLanguage } from '../context/LanguageContext';
 import { t } from '../utils/translations';
+import useDebounce from '../hooks/useDebounce';
 import SearchBar from '../components/SearchBar/SearchBar';
 import MovieGrid from '../components/MovieGrid/MovieGrid';
 import Loader from '../components/Loader/Loader';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 import './Search.scss';
 
 const Search = () => {
@@ -17,9 +18,11 @@ const Search = () => {
 
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [query, setQuery] = useState(queryParam);
   const [selectedGenre, setSelectedGenre] = useState(genreParam);
+  const debouncedQuery = useDebounce(query, 400);
 
   useEffect(() => {
     tmdbApi
@@ -31,6 +34,7 @@ const Search = () => {
   const searchMovies = useCallback(
     async (searchQuery, genreId) => {
       setLoading(true);
+      setError(false);
       try {
         let results = [];
 
@@ -39,6 +43,7 @@ const Search = () => {
             params: { query: searchQuery, language: apiLanguage },
           });
           results = res.data.results;
+          sessionStorage.setItem('lastSearch', searchQuery.trim());
         } else if (genreId) {
           const res = await tmdbApi.get('/discover/movie', {
             params: {
@@ -46,6 +51,11 @@ const Search = () => {
               language: apiLanguage,
               sort_by: 'popularity.desc',
             },
+          });
+          results = res.data.results;
+        } else {
+          const res = await tmdbApi.get('/movie/popular', {
+            params: { language: apiLanguage },
           });
           results = res.data.results;
         }
@@ -59,6 +69,7 @@ const Search = () => {
         setMovies(results);
       } catch (err) {
         console.error(err);
+        setError(true);
         setMovies([]);
       } finally {
         setLoading(false);
@@ -68,35 +79,31 @@ const Search = () => {
   );
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      searchMovies(query, selectedGenre);
-      const params = {};
-      if (query) params.q = query;
-      if (selectedGenre) params.genre = selectedGenre;
-      setSearchParams(params);
-    }, 400);
-
-    return () => clearTimeout(timer);
-  }, [query, selectedGenre, searchMovies, setSearchParams]);
+    searchMovies(debouncedQuery, selectedGenre);
+    const params = {};
+    if (debouncedQuery) params.q = debouncedQuery;
+    if (selectedGenre) params.genre = selectedGenre;
+    setSearchParams(params, { replace: true });
+  }, [debouncedQuery, selectedGenre, searchMovies, setSearchParams]);
 
   useEffect(() => {
     setQuery(queryParam);
     setSelectedGenre(genreParam);
   }, [queryParam, genreParam]);
 
+  const hasActiveFilter = debouncedQuery.trim() || selectedGenre;
+  const showEmpty = !loading && !error && movies.length === 0 && hasActiveFilter;
+
   return (
-    <motion.div
-      className="page search-page"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <div className="page search-page">
       <div className="container">
         <h1 className="search-page__title">{t(language, 'searchResults')}</h1>
         <SearchBar onSearch={setQuery} initialQuery={query} />
 
         <div className="search-page__filters">
-          <label>{t(language, 'filterByGenre')}</label>
+          <label htmlFor="genre-filter">{t(language, 'filterByGenre')}</label>
           <select
+            id="genre-filter"
             value={selectedGenre}
             onChange={(e) => setSelectedGenre(e.target.value)}
           >
@@ -109,23 +116,36 @@ const Search = () => {
           </select>
         </div>
 
-        {!loading && movies.length > 0 && (
+        {!loading && !error && movies.length > 0 && (
           <p className="search-page__count">
             {movies.length} {t(language, 'moviesFound')}
           </p>
         )}
 
+        {!hasActiveFilter && !loading && !error && (
+          <p className="search-page__hint">{t(language, 'searchHint')}</p>
+        )}
+
         {loading ? (
           <Loader variant="skeleton" />
+        ) : error ? (
+          <ErrorMessage
+            message={t(language, 'errorLoading')}
+            onRetry={() => searchMovies(debouncedQuery, selectedGenre)}
+            retryLabel={t(language, 'retry')}
+          />
         ) : movies.length > 0 ? (
-          <MovieGrid movies={movies} />
-        ) : (
-          query && (
-            <p className="search-page__empty">{t(language, 'noResults')}</p>
-          )
-        )}
+          <>
+            {!hasActiveFilter && (
+              <h2 className="section-title">{t(language, 'browsePopular')}</h2>
+            )}
+            <MovieGrid movies={movies} />
+          </>
+        ) : showEmpty ? (
+          <p className="search-page__empty">{t(language, 'noResults')}</p>
+        ) : null}
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -46,6 +46,12 @@ export const translations = {
     heroMore: 'More Info',
     searchResults: 'Search Results',
     moviesFound: 'movies found',
+    errorLoading: 'Failed to load data. Please check your connection or API key.',
+    retry: 'Try Again',
+    searchHint: 'Search for a movie or filter by genre to get started.',
+    browsePopular: 'Popular Movies',
+    techStack: 'Tech Stack',
+    movieNotFound: 'Movie not found',
   },
   ka: {
     home: 'მთავარი',
@@ -94,6 +100,12 @@ export const translations = {
     heroMore: 'მეტი ინფო',
     searchResults: 'ძებნის შედეგები',
     moviesFound: 'ფილმი ნაპოვნია',
+    errorLoading: 'მონაცემების ჩატვირთვა ვერ მოხერხდა. შეამოწმე კავშირი ან API გასაღები.',
+    retry: 'თავიდან',
+    searchHint: 'მოძებნე ფილმი ან გაფილტრე ჟანრით.',
+    browsePopular: 'პოპულარული ფილმები',
+    techStack: 'ტექნოლოგიები',
+    movieNotFound: 'ფილმი ვერ მოიძებნა',
   },
 };
 

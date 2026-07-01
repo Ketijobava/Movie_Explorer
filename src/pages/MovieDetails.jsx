@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   FaStar,
@@ -17,6 +17,7 @@ import { formatRuntime, formatDate, formatRating } from '../utils/helpers';
 import Modal from '../components/Modal/Modal';
 import MovieGrid from '../components/MovieGrid/MovieGrid';
 import Loader from '../components/Loader/Loader';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 import './MovieDetails.scss';
 
 const MovieDetails = () => {
@@ -31,37 +32,51 @@ const MovieDetails = () => {
   const [trailer, setTrailer] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+
+  const fetchMovie = async () => {
+    setLoading(true);
+    setError(false);
+    setNotFound(false);
+    try {
+      const [details, credits, similarRes, videos] = await Promise.all([
+        tmdbApi.get(`/movie/${id}`, { params: { language: apiLanguage } }),
+        tmdbApi.get(`/movie/${id}/credits`),
+        tmdbApi.get(`/movie/${id}/similar`, {
+          params: { language: apiLanguage },
+        }),
+        tmdbApi.get(`/movie/${id}/videos`, {
+          params: { language: apiLanguage },
+        }),
+      ]);
+
+      if (!details.data?.id) {
+        setNotFound(true);
+        return;
+      }
+
+      setMovie(details.data);
+      setCast(credits.data.cast.slice(0, 10));
+      setSimilar(similarRes.data.results.slice(0, 10));
+
+      const ytTrailer = videos.data.results.find(
+        (v) => v.site === 'YouTube' && v.type === 'Trailer'
+      );
+      setTrailer(ytTrailer?.key || null);
+    } catch (err) {
+      console.error(err);
+      if (err.response?.status === 404) {
+        setNotFound(true);
+      } else {
+        setError(true);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMovie = async () => {
-      setLoading(true);
-      try {
-        const [details, credits, similarRes, videos] = await Promise.all([
-          tmdbApi.get(`/movie/${id}`, { params: { language: apiLanguage } }),
-          tmdbApi.get(`/movie/${id}/credits`),
-          tmdbApi.get(`/movie/${id}/similar`, {
-            params: { language: apiLanguage },
-          }),
-          tmdbApi.get(`/movie/${id}/videos`, {
-            params: { language: apiLanguage },
-          }),
-        ]);
-
-        setMovie(details.data);
-        setCast(credits.data.cast.slice(0, 10));
-        setSimilar(similarRes.data.results.slice(0, 10));
-
-        const ytTrailer = videos.data.results.find(
-          (v) => v.site === 'YouTube' && v.type === 'Trailer'
-        );
-        setTrailer(ytTrailer?.key || null);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchMovie();
     window.scrollTo(0, 0);
   }, [id, apiLanguage]);
@@ -74,10 +89,25 @@ const MovieDetails = () => {
     );
   }
 
-  if (!movie) {
+  if (error) {
     return (
-      <div className="page container">
-        <p>{t(language, 'noResults')}</p>
+      <div className="page">
+        <ErrorMessage
+          message={t(language, 'errorLoading')}
+          onRetry={fetchMovie}
+          retryLabel={t(language, 'retry')}
+        />
+      </div>
+    );
+  }
+
+  if (notFound || !movie) {
+    return (
+      <div className="page container empty-state">
+        <h2>{t(language, 'movieNotFound')}</h2>
+        <Link to="/" className="btn btn--primary">
+          {t(language, 'goHome')}
+        </Link>
       </div>
     );
   }
@@ -88,11 +118,7 @@ const MovieDetails = () => {
     'https://via.placeholder.com/500x750/1a1a1a/666?text=No+Image';
 
   return (
-    <motion.div
-      className="movie-details"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <div className="movie-details">
       <div
         className="movie-details__backdrop"
         style={backdropUrl ? { backgroundImage: `url(${backdropUrl})` } : {}}
@@ -212,7 +238,7 @@ const MovieDetails = () => {
           />
         )}
       </Modal>
-    </motion.div>
+    </div>
   );
 };
 

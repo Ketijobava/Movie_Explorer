@@ -4,6 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider } from './context/LanguageContext';
 import { GlobalProvider } from './context/GlobalContext';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import PageTransition from './components/PageTransition/PageTransition';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home';
@@ -20,13 +22,62 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/movie/:id" element={<MovieDetails />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/watchlist" element={<Watchlist />} />
-        <Route path="/about" element={<About />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/"
+          element={
+            <PageTransition>
+              <Home />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <PageTransition>
+              <Search />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/movie/:id"
+          element={
+            <PageTransition>
+              <MovieDetails />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <PageTransition>
+              <Favorites />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/watchlist"
+          element={
+            <PageTransition>
+              <Watchlist />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <PageTransition>
+              <About />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <PageTransition>
+              <NotFound />
+            </PageTransition>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );
@@ -34,27 +85,29 @@ const AnimatedRoutes = () => {
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <GlobalProvider>
-          <BrowserRouter>
-            <Navbar />
-            <AnimatedRoutes />
-            <Footer />
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: 'var(--surface)',
-                  color: 'var(--text)',
-                  border: '1px solid var(--border)',
-                },
-              }}
-            />
-          </BrowserRouter>
-        </GlobalProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <LanguageProvider>
+          <GlobalProvider>
+            <BrowserRouter>
+              <Navbar />
+              <AnimatedRoutes />
+              <Footer />
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: 'var(--surface)',
+                    color: 'var(--text)',
+                    border: '1px solid var(--border)',
+                  },
+                }}
+              />
+            </BrowserRouter>
+          </GlobalProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 
