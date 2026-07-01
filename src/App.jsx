@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from './context/ThemeContext';
@@ -89,21 +89,19 @@ const App = () => {
       <ThemeProvider>
         <LanguageProvider>
           <GlobalProvider>
-            <BrowserRouter>
-              <Navbar />
-              <AnimatedRoutes />
-              <Footer />
-              <Toaster
-                position="bottom-right"
-                toastOptions={{
-                  style: {
-                    background: 'var(--surface)',
-                    color: 'var(--text)',
-                    border: '1px solid var(--border)',
-                  },
-                }}
-              />
-            </BrowserRouter>
+            <Navbar />
+            <AnimatedRoutes />
+            <Footer />
+            <Toaster
+              position="bottom-right"
+              toastOptions={{
+                style: {
+                  background: 'var(--surface)',
+                  color: 'var(--text)',
+                  border: '1px solid var(--border)',
+                },
+              }}
+            />
           </GlobalProvider>
         </LanguageProvider>
       </ThemeProvider>
