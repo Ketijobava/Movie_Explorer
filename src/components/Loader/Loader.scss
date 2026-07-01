@@ -1,0 +1,34 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.loader {
+  @include flex-center;
+  padding: 4rem;
+
+  &__spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border);
+    border-top-color: $primary;
+    border-radius: 50%;
+  }
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+  padding: 1rem 0;
+
+  @include mobile {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+  }
+}
+
+.skeleton-card {
+  aspect-ratio: 2/3;
+  background: var(--card);
+  border-radius: $radius-md;
+  border: 1px solid var(--border);
+}

@@ -1,0 +1,181 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.movie-details {
+  padding-top: $navbar-height;
+
+  &__backdrop {
+    height: 50vh;
+    background-size: cover;
+    background-position: center top;
+    position: relative;
+  }
+
+  &__backdrop-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
+  }
+
+  &__content {
+    position: relative;
+    margin-top: -150px;
+    padding-bottom: 3rem;
+  }
+
+  &__main {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+
+    @include tablet {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  &__poster {
+    width: 280px;
+    flex-shrink: 0;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-lg;
+
+    @include mobile {
+      width: 220px;
+    }
+  }
+
+  &__info {
+    flex: 1;
+    padding-top: 150px;
+
+    @include tablet {
+      padding-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__tagline {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+
+    @include tablet {
+      justify-content: center;
+    }
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .star {
+      color: #ffd700;
+    }
+  }
+
+  &__genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+
+    @include tablet {
+      justify-content: center;
+    }
+  }
+
+  .genre-tag {
+    padding: 0.3rem 0.85rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+  }
+
+  &__overview {
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    @include tablet {
+      justify-content: center;
+    }
+
+    .btn.active {
+      background: $primary;
+      color: #fff;
+    }
+  }
+
+  &__cast,
+  &__similar {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.cast-grid {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+  }
+}
+
+.cast-card {
+  flex-shrink: 0;
+  width: 120px;
+  text-align: center;
+
+  img {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: $radius-md;
+    margin-bottom: 0.5rem;
+    background: var(--card);
+  }
+
+  h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    @include truncate(1);
+  }
+
+  p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    @include truncate(1);
+  }
+}

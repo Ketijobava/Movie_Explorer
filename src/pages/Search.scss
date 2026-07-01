@@ -1,0 +1,48 @@
+.search-page {
+  &__title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+
+    label {
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    select {
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.9rem;
+      min-width: 180px;
+
+      &:focus {
+        outline: none;
+        border-color: #e50914;
+      }
+    }
+  }
+
+  &__count {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,56 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.footer {
+  margin-top: 4rem;
+  padding: 2.5rem 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+
+    .accent {
+      color: $primary;
+    }
+  }
+
+  &__icon {
+    color: $primary;
+    font-size: 1.4rem;
+  }
+
+  &__links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    a {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      transition: color $transition;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+
+  &__credit {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+}

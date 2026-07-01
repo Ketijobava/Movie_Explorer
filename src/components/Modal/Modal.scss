@@ -1,0 +1,46 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  @include flex-center;
+  padding: 1rem;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: var(--surface);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  @include flex-center;
+  font-size: 1.5rem;
+  transition: background $transition;
+
+  &:hover {
+    background: $primary;
+  }
+}
+
+.trailer-iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: none;
+}

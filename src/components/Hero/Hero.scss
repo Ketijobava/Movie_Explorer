@@ -1,0 +1,117 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.hero {
+  position: relative;
+  min-height: 75vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  margin-top: -$navbar-height;
+  padding-top: $navbar-height;
+
+  @include mobile {
+    min-height: 60vh;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+
+    &.loaded {
+      opacity: 1;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      var(--bg) 0%,
+      rgba(10, 10, 10, 0.7) 40%,
+      rgba(10, 10, 10, 0.3) 100%
+    );
+
+    .light-theme & {
+      background: linear-gradient(
+        to top,
+        var(--bg) 0%,
+        rgba(245, 245, 245, 0.8) 50%,
+        rgba(245, 245, 245, 0.4) 100%
+      );
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 1.5rem 4rem;
+    max-width: 700px;
+
+    @include mobile {
+      padding: 2rem 1rem 3rem;
+    }
+  }
+
+  &__badge {
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    background: $primary;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: $radius-sm;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  &__overview {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+    @include truncate(3);
+    line-height: 1.7;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  &__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #ffd700;
+    font-weight: 700;
+
+    svg {
+      font-size: 0.85rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+}

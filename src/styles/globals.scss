@@ -1,0 +1,161 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-primary;
+  line-height: 1.6;
+  transition: background-color $transition, color $transition;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+.dark-theme {
+  background-color: $dark-bg;
+  color: $dark-text;
+
+  --bg: #{$dark-bg};
+  --surface: #{$dark-surface};
+  --card: #{$dark-card};
+  --border: #{$dark-border};
+  --text: #{$dark-text};
+  --text-muted: #{$dark-text-muted};
+}
+
+.light-theme {
+  background-color: $light-bg;
+  color: $light-text;
+
+  --bg: #{$light-bg};
+  --surface: #{$light-surface};
+  --card: #{$light-card};
+  --border: #{$light-border};
+  --text: #{$light-text};
+  --text-muted: #{$light-text-muted};
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+
+  @include mobile {
+    padding: 0 1rem;
+  }
+}
+
+.page {
+  padding-top: calc(#{$navbar-height} + 1rem);
+  min-height: 100vh;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  position: relative;
+  padding-left: 1rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 70%;
+    background: $primary;
+    border-radius: 2px;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all $transition;
+
+  &--primary {
+    background: $primary;
+    color: #fff;
+
+    &:hover {
+      background: $primary-hover;
+      box-shadow: 0 0 20px $primary-glow;
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 2px solid var(--text);
+    color: var(--text);
+
+    &:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+  }
+
+  &--ghost {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    backdrop-filter: blur(10px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+
+  svg {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+}

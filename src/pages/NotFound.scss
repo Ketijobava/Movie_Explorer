@@ -1,0 +1,33 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.not-found {
+  @include flex-center;
+  flex-direction: column;
+  min-height: 70vh;
+  text-align: center;
+  gap: 0.75rem;
+
+  &__icon {
+    font-size: 4rem;
+    color: $primary;
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 6rem;
+    font-weight: 900;
+    color: $primary;
+    line-height: 1;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+}

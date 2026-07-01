@@ -1,0 +1,173 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $navbar-height;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+
+  .light-theme & {
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 1.5rem;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 800;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    .accent {
+      color: $primary;
+    }
+  }
+
+  &__logo-icon {
+    color: $primary;
+    font-size: 1.5rem;
+  }
+
+  &__links {
+    display: none;
+    gap: 1.25rem;
+    margin-left: auto;
+
+    @include desktop {
+      display: flex;
+    }
+
+    a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: color $transition;
+      white-space: nowrap;
+
+      &:hover,
+      &.active {
+        color: $primary;
+      }
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+
+    @include desktop {
+      margin-left: 0;
+    }
+  }
+
+  &__control-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: $radius-sm;
+    background: var(--card);
+    color: var(--text);
+    @include flex-center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    transition: all $transition;
+
+    &:hover {
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+
+  &__menu-btn {
+    display: none;
+    width: 38px;
+    height: 38px;
+    background: var(--card);
+    color: var(--text);
+    border-radius: $radius-sm;
+    @include flex-center;
+    font-size: 1.1rem;
+    border: 1px solid var(--border);
+
+    @include below-desktop {
+      display: flex;
+    }
+
+    @include desktop {
+      display: none !important;
+    }
+  }
+
+  &__mobile-menu {
+    overflow: hidden;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    @include desktop {
+      display: none !important;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: $radius-sm;
+      color: var(--text);
+      font-weight: 500;
+      transition: background $transition;
+
+      &:hover {
+        background: var(--card);
+        color: $primary;
+      }
+    }
+  }
+
+  &__mobile-search {
+    display: flex;
+    gap: 0.5rem;
+
+    input {
+      flex: 1;
+      padding: 0.65rem 1rem;
+      border-radius: $radius-sm;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 0.9rem;
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+
+    button {
+      padding: 0 1rem;
+      background: $primary;
+      color: #fff;
+      border-radius: $radius-sm;
+    }
+  }
+}
