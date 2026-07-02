@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { FaHeart } from 'react-icons/fa';
-import { useGlobal } from '../context/GlobalContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useGlobal } from '../context/useGlobal';
+import { useLanguage } from '../context/useLanguage';
 import { t } from '../utils/translations';
 import MovieGrid from '../components/MovieGrid/MovieGrid';
 

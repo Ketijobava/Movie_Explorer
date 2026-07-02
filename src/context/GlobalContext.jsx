@@ -1,9 +1,8 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { useLanguage } from './LanguageContext';
+import { GlobalContext } from './GlobalContextObject';
+import { useLanguage } from './useLanguage';
 import { t } from '../utils/translations';
-
-const GlobalContext = createContext();
 
 const loadFromStorage = (key) => {
   try {
@@ -65,5 +64,3 @@ export const GlobalProvider = ({ children }) => {
     </GlobalContext.Provider>
   );
 };
-
-export const useGlobal = () => useContext(GlobalContext);

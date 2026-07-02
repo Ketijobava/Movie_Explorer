@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaStar, FaHeart, FaBookmark } from 'react-icons/fa';
 import { getImageUrl } from '../../api/axios';
-import { useGlobal } from '../../context/GlobalContext';
+import { useGlobal } from '../../context/useGlobal';
 import { formatRating } from '../../utils/helpers';
 import './MovieCard.scss';
 

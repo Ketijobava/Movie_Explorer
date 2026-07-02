@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaStar, FaPlay } from 'react-icons/fa';
 import { getImageUrl, BACKDROP_SIZE } from '../../api/axios';
-import { useLanguage } from '../../context/LanguageContext';
+import { useLanguage } from '../../context/useLanguage';
 import { t } from '../../utils/translations';
 import { formatRating } from '../../utils/helpers';
 import './Hero.scss';

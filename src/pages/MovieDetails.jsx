@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -10,8 +10,8 @@ import {
   FaCalendar,
 } from 'react-icons/fa';
 import tmdbApi, { getImageUrl, BACKDROP_SIZE, PROFILE_SIZE } from '../api/axios';
-import { useLanguage } from '../context/LanguageContext';
-import { useGlobal } from '../context/GlobalContext';
+import { useLanguage } from '../context/useLanguage';
+import { useGlobal } from '../context/useGlobal';
 import { t } from '../utils/translations';
 import { formatRuntime, formatDate, formatRating } from '../utils/helpers';
 import Modal from '../components/Modal/Modal';
@@ -35,7 +35,7 @@ const MovieDetails = () => {
   const [error, setError] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
-  const fetchMovie = async () => {
+  const fetchMovie = useCallback(async () => {
     setLoading(true);
     setError(false);
     setNotFound(false);
@@ -74,12 +74,12 @@ const MovieDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiLanguage, id]);
 
   useEffect(() => {
     fetchMovie();
     window.scrollTo(0, 0);
-  }, [id, apiLanguage]);
+  }, [fetchMovie]);
 
   if (loading) {
     return (

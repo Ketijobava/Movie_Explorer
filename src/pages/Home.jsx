@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import tmdbApi from '../api/axios';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 import { t } from '../utils/translations';
 import Hero from '../components/Hero/Hero';
 import MovieGrid from '../components/MovieGrid/MovieGrid';

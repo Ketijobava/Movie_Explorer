@@ -2,16 +2,14 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FaHeart,
-  FaBookmark,
   FaSun,
   FaMoon,
   FaBars,
   FaTimes,
   FaSearch,
 } from 'react-icons/fa';
-import { useTheme } from '../../context/ThemeContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/useTheme';
+import { useLanguage } from '../../context/useLanguage';
 import { t } from '../../utils/translations';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import './Navbar.scss';
